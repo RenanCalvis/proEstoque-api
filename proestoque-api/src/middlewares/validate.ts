@@ -8,13 +8,15 @@ export const validate = (schema: AnyZodObject) => {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
+        const errors = error.issues.map((e) => ({
+          path: e.path,
+          message: e.message,
+        }));
+        console.warn(`[Validation Error] na rota ${req.url}:`, errors);
         return res.status(422).json({
           status: 'error',
           message: 'Erro de validação',
-          errors: error.issues.map((e) => ({
-            path: e.path,
-            message: e.message,
-          })),
+          errors,
         });
       }
       next(error);
