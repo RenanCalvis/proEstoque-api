@@ -33,10 +33,10 @@ export const buscarPorId = async (req: Request, res: Response, next: NextFunctio
 
 export const criar = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { nome, categoriaId, quantidade, quantidadeMinima, preco, unidade } = req.body;
+    const { nome, categoriaId, quantidade, quantidadeMinima, preco, unidade, foto, observacao } = req.body;
 
-    if (!nome || !categoriaId || quantidade === undefined || quantidadeMinima === undefined || preco === undefined || !unidade) {
-      throw new AppError('Todos os campos são obrigatórios', 400);
+    if (!nome || !categoriaId || quantidade === undefined || quantidadeMinima === undefined || preco === undefined) {
+      throw new AppError('Nome, categoria, quantidade, quantidadeMinima e preco são obrigatórios', 400);
     }
 
     const produto = await prisma.produto.create({
@@ -46,7 +46,9 @@ export const criar = async (req: Request, res: Response, next: NextFunction) => 
         quantidade,
         quantidadeMinima,
         preco,
-        unidade
+        unidade: unidade || 'un',
+        foto,
+        observacao
       }
     });
 

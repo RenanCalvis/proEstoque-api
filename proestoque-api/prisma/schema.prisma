@@ -33,6 +33,8 @@ model Produto {
   quantidadeMinima Int
   preco            Float
   unidade          String
+  foto             String?
+  observacao       String?
   categoria        Categoria @relation(fields: [categoriaId], references: [id])
   movimentacoes    Movimentacao[]
   criadoEm         DateTime @default(now())
