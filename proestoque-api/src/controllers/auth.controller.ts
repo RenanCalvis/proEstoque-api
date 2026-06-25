@@ -7,7 +7,7 @@ import { config } from '../config';
 
 const generateTokens = (id: string) => {
   const accessToken = jwt.sign({ id }, config.jwtSecret, {
-    expiresIn: config.jwtExpiresIn,
+    expiresIn: config.jwtExpiresIn as any,
   });
   
   const refreshToken = jwt.sign({ id }, config.jwtSecret, {

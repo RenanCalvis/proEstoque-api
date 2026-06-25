@@ -4,7 +4,7 @@ import { AppError } from '../middlewares/errorHandler';
 
 export const criarMovimentacao = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params; // produtoId
+    const { id } = req.params as { [key: string]: string }; // produtoId
     const { tipo, quantidade, observacao } = req.body;
 
     if (!tipo || !quantidade) {
@@ -58,7 +58,7 @@ export const criarMovimentacao = async (req: Request, res: Response, next: NextF
 
 export const listarMovimentacoes = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { [key: string]: string };
 
     const produto = await prisma.produto.findUnique({ where: { id } });
     if (!produto) {

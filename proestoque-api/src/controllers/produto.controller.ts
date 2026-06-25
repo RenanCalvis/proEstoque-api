@@ -15,7 +15,7 @@ export const listar = async (req: Request, res: Response, next: NextFunction) =>
 
 export const buscarPorId = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { [key: string]: string };
     const produto = await prisma.produto.findUnique({
       where: { id },
       include: { categoria: true, movimentacoes: true }
@@ -60,7 +60,7 @@ export const criar = async (req: Request, res: Response, next: NextFunction) => 
 
 export const atualizar = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { [key: string]: string };
     const data = req.body;
 
     const produtoExiste = await prisma.produto.findUnique({ where: { id } });
@@ -81,7 +81,7 @@ export const atualizar = async (req: Request, res: Response, next: NextFunction)
 
 export const deletar = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { [key: string]: string };
 
     const produtoExiste = await prisma.produto.findUnique({ where: { id } });
     if (!produtoExiste) {

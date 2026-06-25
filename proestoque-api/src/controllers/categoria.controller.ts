@@ -15,7 +15,7 @@ export const listar = async (req: Request, res: Response, next: NextFunction) =>
 
 export const buscarPorId = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { [key: string]: string };
     const categoria = await prisma.categoria.findUnique({
       where: { id },
       include: { produtos: true }
