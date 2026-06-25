@@ -1,17 +1,10 @@
 #!/bin/bash
 
-# Script para preparar o projeto para deploy na Railway
-# Troca SQLite por PostgreSQL no schema e migration lock
-
 echo "🚂 Preparando para deploy na Railway..."
 
-# Troca o provider no schema.prisma
-sed -i '' 's/provider = "sqlite"/provider = "postgresql"/' prisma/schema.prisma
+node -e "const fs = require('fs'); const path = 'prisma/schema.prisma'; let content = fs.readFileSync(path, 'utf8'); content = content.replace(/provider = \"sqlite\"/g, 'provider = \"postgresql\"'); fs.writeFileSync(path, content);"
+node -e "const fs = require('fs'); const path = 'prisma/migrations/migration_lock.toml'; let content = fs.readFileSync(path, 'utf8'); content = content.replace(/provider = \"sqlite\"/g, 'provider = \"postgresql\"'); fs.writeFileSync(path, content);"
 
-# Troca o provider no migration_lock.toml
-sed -i '' 's/provider = "sqlite"/provider = "postgresql"/' prisma/migrations/migration_lock.toml
-
-# Substitui o migration SQL por um compatível com PostgreSQL
 cat > prisma/migrations/20260625000000_init_sqlite/migration.sql << 'ENDSQL'
 -- CreateTable
 CREATE TABLE "Usuario" (
@@ -76,11 +69,3 @@ ALTER TABLE "Movimentacao" ADD CONSTRAINT "Movimentacao_produtoId_fkey" FOREIGN 
 ENDSQL
 
 echo "✅ Schema e migrations atualizados para PostgreSQL!"
-echo ""
-echo "📌 Agora configure no Railway:"
-echo "   DATABASE_URL = (URL do PostgreSQL do Railway)"
-echo "   JWT_SECRET   = (sua chave secreta)"
-echo "   JWT_EXPIRES_IN = 7d"
-echo "   REFRESH_TOKEN_SECRET = (sua chave de refresh)"
-echo ""
-echo "🔧 Para restaurar SQLite local depois: npm run dev:restore"
