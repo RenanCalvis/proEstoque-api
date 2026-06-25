@@ -4,6 +4,7 @@ CREATE TABLE "Usuario" (
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "senha" TEXT NOT NULL,
+    "refreshToken" TEXT,
     "criadoEm" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "atualizadoEm" DATETIME NOT NULL
 );
@@ -25,6 +26,8 @@ CREATE TABLE "Produto" (
     "quantidadeMinima" INTEGER NOT NULL,
     "preco" REAL NOT NULL,
     "unidade" TEXT NOT NULL,
+    "foto" TEXT,
+    "observacao" TEXT,
     "criadoEm" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "atualizadoEm" DATETIME NOT NULL,
     CONSTRAINT "Produto_categoriaId_fkey" FOREIGN KEY ("categoriaId") REFERENCES "Categoria" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
